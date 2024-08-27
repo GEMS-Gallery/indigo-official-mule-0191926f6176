@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Grid, Card, CardContent, CardMedia, CardActions, Button, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Box, Avatar, Tabs, Tab } from '@mui/material';
-import { GitHub, Add, ForkRight } from '@mui/icons-material';
+import { GitHub, Add, ForkRight, Star, Comment } from '@mui/icons-material';
 import { backend } from 'declarations/backend';
 
 interface Gem {
@@ -98,9 +98,12 @@ const App: React.FC = () => {
                   alt={gem.title}
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 600 }}>
-                    {gem.title}
-                  </Typography>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                    <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 600 }}>
+                      {gem.title}
+                    </Typography>
+                    {gem.featured && <Star color="primary" />}
+                  </Box>
                   <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
                     <Avatar src={gem.author.avatar} alt={gem.author.name} sx={{ mr: 1 }} />
                     <Typography variant="body2">{gem.author.name}</Typography>
@@ -109,6 +112,7 @@ const App: React.FC = () => {
                 <CardActions>
                   <Button size="small" startIcon={<GitHub />} href={gem.githubUrl} target="_blank" rel="noopener noreferrer">GitHub</Button>
                   <Button size="small" startIcon={<ForkRight />} href={`${gem.githubUrl}/fork`} target="_blank" rel="noopener noreferrer">Fork this project</Button>
+                  <Button size="small" startIcon={<Comment />}>Comment</Button>
                 </CardActions>
               </Card>
             </Grid>
