@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Grid, Card, CardContent, CardMedia, CardActions, Button, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Box, Avatar, Tabs, Tab, Chip, List, ListItem, ListItemText } from '@mui/material';
-import { GitHub, Add, ContentCopy, Star, Comment, Diamond } from '@mui/icons-material';
+import { GitHub, Add, ContentCopy, Star, Comment, Diamond, RocketLaunch, School } from '@mui/icons-material';
 import { backend } from 'declarations/backend';
 
 interface Gem {
@@ -89,6 +89,12 @@ const App: React.FC = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 700 }}>
             GEM's Showcase
           </Typography>
+          <Button startIcon={<RocketLaunch />} href="https://gems.xyz" target="_blank" rel="noopener noreferrer" sx={{ mr: 2 }}>
+            Start Building
+          </Button>
+          <Button startIcon={<School />} href="https://gems.xyz/learn" target="_blank" rel="noopener noreferrer" sx={{ mr: 2 }}>
+            Learn
+          </Button>
           <Button startIcon={<Add />} onClick={() => setOpenDialog(true)}>Add GEM</Button>
         </Toolbar>
       </AppBar>
