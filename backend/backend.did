@@ -1,3 +1,8 @@
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
 type Gem = 
  record {
    author: record {
@@ -13,8 +18,10 @@ type Gem =
    title: text;
  };
 service : {
+  addGem: (Gem) -> (Result);
   getFeaturedGems: () -> (vec Gem) query;
   getGems: () -> (vec Gem) query;
   getGemsByCategory: (text) -> (vec Gem) query;
   getLatestGems: () -> (vec Gem) query;
+  updateGem: (Gem) -> (Result);
 }
