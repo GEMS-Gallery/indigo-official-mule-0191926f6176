@@ -10,6 +10,7 @@ export interface Gem {
   'createdAt' : bigint,
   'githubUrl' : string,
   'author' : { 'name' : string, 'avatar' : string },
+  'category' : string,
 }
 export type Result = { 'ok' : null } |
   { 'err' : string };
@@ -17,6 +18,7 @@ export interface _SERVICE {
   'addGem' : ActorMethod<[Gem], Result>,
   'getFeaturedGems' : ActorMethod<[], Array<Gem>>,
   'getGems' : ActorMethod<[], Array<Gem>>,
+  'getGemsByCategory' : ActorMethod<[string], Array<Gem>>,
   'getLatestGems' : ActorMethod<[], Array<Gem>>,
   'updateGem' : ActorMethod<[Gem], Result>,
 }
