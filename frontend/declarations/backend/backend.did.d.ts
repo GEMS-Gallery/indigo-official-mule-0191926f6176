@@ -6,6 +6,7 @@ export interface Gem {
   'id' : string,
   'title' : string,
   'thumbnail' : string,
+  'description' : string,
   'githubUrl' : string,
 }
 export type Result = { 'ok' : null } |

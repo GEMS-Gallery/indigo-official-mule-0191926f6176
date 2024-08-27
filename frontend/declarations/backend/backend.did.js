@@ -3,6 +3,7 @@ export const idlFactory = ({ IDL }) => {
     'id' : IDL.Text,
     'title' : IDL.Text,
     'thumbnail' : IDL.Text,
+    'description' : IDL.Text,
     'githubUrl' : IDL.Text,
   });
   const Result = IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text });
