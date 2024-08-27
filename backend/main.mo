@@ -27,26 +27,14 @@ actor {
   };
 
   private stable var gemsEntries : [(Text, Gem)] = [
-    ("1", { id = "1"; title = "Awesome Project"; thumbnail = "https://fakeimg.pl/600x400?text=Awesome"; githubUrl = "https://github.com/awesome/project"; author = { name = "Alice Johnson"; avatar = "https://i.pravatar.cc/150?u=alice" }; featured = true; createdAt = Time.now(); category = "Web Development" }),
-    ("2", { id = "2"; title = "Cool Library"; thumbnail = "https://fakeimg.pl/600x400?text=Cool"; githubUrl = "https://github.com/cool/library"; author = { name = "Bob Smith"; avatar = "https://i.pravatar.cc/150?u=bob" }; featured = false; createdAt = Time.now() - 86400_000_000_000; category = "Libraries" }),
-    ("3", { id = "3"; title = "Useful Tool"; thumbnail = "https://fakeimg.pl/600x400?text=Useful"; githubUrl = "https://github.com/useful/tool"; author = { name = "Charlie Brown"; avatar = "https://i.pravatar.cc/150?u=charlie" }; featured = true; createdAt = Time.now() - 172800_000_000_000; category = "Tools" }),
-    ("4", { id = "4"; title = "Great Framework"; thumbnail = "https://fakeimg.pl/600x400?text=Great"; githubUrl = "https://github.com/great/framework"; author = { name = "Diana Prince"; avatar = "https://i.pravatar.cc/150?u=diana" }; featured = false; createdAt = Time.now() - 259200_000_000_000; category = "Frameworks" }),
-    ("5", { id = "5"; title = "Amazing API"; thumbnail = "https://fakeimg.pl/600x400?text=Amazing"; githubUrl = "https://github.com/amazing/api"; author = { name = "Ethan Hunt"; avatar = "https://i.pravatar.cc/150?u=ethan" }; featured = true; createdAt = Time.now() - 345600_000_000_000; category = "APIs" }),
-    ("6", { id = "6"; title = "Fantastic SDK"; thumbnail = "https://fakeimg.pl/600x400?text=Fantastic"; githubUrl = "https://github.com/fantastic/sdk"; author = { name = "Fiona Gallagher"; avatar = "https://i.pravatar.cc/150?u=fiona" }; featured = false; createdAt = Time.now() - 432000_000_000_000; category = "SDKs" })
+    ("1", { id = "1"; title = "E-commerce Template"; thumbnail = "https://fakeimg.pl/600x400?text=E-commerce"; githubUrl = "https://github.com/awesome/ecommerce"; author = { name = "Alice Johnson"; avatar = "https://i.pravatar.cc/150?u=alice" }; featured = true; createdAt = Time.now(); category = "Retail" }),
+    ("2", { id = "2"; title = "SaaS Dashboard"; thumbnail = "https://fakeimg.pl/600x400?text=SaaS"; githubUrl = "https://github.com/cool/saas-dashboard"; author = { name = "Bob Smith"; avatar = "https://i.pravatar.cc/150?u=bob" }; featured = false; createdAt = Time.now() - 86400_000_000_000; category = "SaaS" }),
+    ("3", { id = "3"; title = "Legal Firm Website"; thumbnail = "https://fakeimg.pl/600x400?text=Legal"; githubUrl = "https://github.com/useful/legal-website"; author = { name = "Charlie Brown"; avatar = "https://i.pravatar.cc/150?u=charlie" }; featured = true; createdAt = Time.now() - 172800_000_000_000; category = "Legal" }),
+    ("4", { id = "4"; title = "Restaurant Booking System"; thumbnail = "https://fakeimg.pl/600x400?text=Restaurant"; githubUrl = "https://github.com/great/restaurant-booking"; author = { name = "Diana Prince"; avatar = "https://i.pravatar.cc/150?u=diana" }; featured = false; createdAt = Time.now() - 259200_000_000_000; category = "Retail" }),
+    ("5", { id = "5"; title = "Fitness Tracker App"; thumbnail = "https://fakeimg.pl/600x400?text=Fitness"; githubUrl = "https://github.com/amazing/fitness-tracker"; author = { name = "Ethan Hunt"; avatar = "https://i.pravatar.cc/150?u=ethan" }; featured = true; createdAt = Time.now() - 345600_000_000_000; category = "SaaS" }),
+    ("6", { id = "6"; title = "Educational Platform"; thumbnail = "https://fakeimg.pl/600x400?text=Education"; githubUrl = "https://github.com/fantastic/edu-platform"; author = { name = "Fiona Gallagher"; avatar = "https://i.pravatar.cc/150?u=fiona" }; featured = false; createdAt = Time.now() - 432000_000_000_000; category = "SaaS" })
   ];
   private var gems = HashMap.HashMap<Text, Gem>(10, Text.equal, Text.hash);
-
-  public func addGem(gem: Gem) : async Result.Result<(), Text> {
-    if (gems.get(gem.id) != null) {
-      return #err("Gem with this ID already exists");
-    };
-    let newGem = {
-      gem with
-      createdAt = Time.now();
-    };
-    gems.put(gem.id, newGem);
-    #ok(())
-  };
 
   public query func getGems() : async [Gem] {
     Iter.toArray(gems.vals())
@@ -63,13 +51,10 @@ actor {
   };
 
   public query func getGemsByCategory(category: Text) : async [Gem] {
-    Array.filter(Iter.toArray(gems.vals()), func (gem: Gem) : Bool { gem.category == category })
-  };
-
-  public func updateGem(gem: Gem) : async Result.Result<(), Text> {
-    switch (gems.replace(gem.id, gem)) {
-      case null { #err("Gem not found") };
-      case (?_) { #ok(()) };
+    if (category == "All") {
+      Iter.toArray(gems.vals())
+    } else {
+      Array.filter(Iter.toArray(gems.vals()), func (gem: Gem) : Bool { gem.category == category })
     }
   };
 
