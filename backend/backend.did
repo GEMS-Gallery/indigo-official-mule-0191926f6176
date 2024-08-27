@@ -9,6 +9,8 @@ type Gem =
              avatar: text;
              name: text;
            };
+   createdAt: int;
+   featured: bool;
    githubUrl: text;
    id: text;
    thumbnail: text;
@@ -16,6 +18,8 @@ type Gem =
  };
 service : {
   addGem: (Gem) -> (Result);
+  getFeaturedGems: () -> (vec Gem) query;
   getGems: () -> (vec Gem) query;
+  getLatestGems: () -> (vec Gem) query;
   updateGem: (Gem) -> (Result);
 }

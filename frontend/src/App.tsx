@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Grid, Card, CardContent, CardMedia, CardActions, Button, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Box, Avatar, ToggleButtonGroup, ToggleButton } from '@mui/material';
-import { GitHub, Add, GridView, ViewList } from '@mui/icons-material';
+import { Container, Typography, Grid, Card, CardContent, CardMedia, CardActions, Button, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Box, Avatar, Tabs, Tab } from '@mui/material';
+import { GitHub, Add, ForkRight } from '@mui/icons-material';
 import { backend } from 'declarations/backend';
 
 interface Gem {
@@ -12,6 +12,8 @@ interface Gem {
     name: string;
     avatar: string;
   };
+  featured: boolean;
+  createdAt: bigint;
 }
 
 const App: React.FC = () => {
@@ -22,9 +24,11 @@ const App: React.FC = () => {
     title: '',
     thumbnail: '',
     githubUrl: '',
-    author: { name: '', avatar: '' }
+    author: { name: '', avatar: '' },
+    featured: false,
+    createdAt: BigInt(0)
   });
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
     fetchGems();
@@ -48,7 +52,9 @@ const App: React.FC = () => {
         title: '',
         thumbnail: '',
         githubUrl: '',
-        author: { name: '', avatar: '' }
+        author: { name: '', avatar: '' },
+        featured: false,
+        createdAt: BigInt(0)
       });
       fetchGems();
     } catch (error) {
@@ -56,11 +62,13 @@ const App: React.FC = () => {
     }
   };
 
-  const handleViewChange = (event: React.MouseEvent<HTMLElement>, newView: 'grid' | 'list' | null) => {
-    if (newView !== null) {
-      setViewMode(newView);
-    }
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
   };
+
+  const filteredGems = tabValue === 0
+    ? gems.filter(gem => gem.featured)
+    : [...gems].sort((a, b) => Number(b.createdAt - a.createdAt));
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -73,36 +81,22 @@ const App: React.FC = () => {
         </Toolbar>
       </AppBar>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4, flexGrow: 1 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Typography variant="h4" component="h1" sx={{ fontWeight: 700 }}>
-            Gems
-          </Typography>
-          <ToggleButtonGroup
-            value={viewMode}
-            exclusive
-            onChange={handleViewChange}
-            aria-label="view mode"
-          >
-            <ToggleButton value="grid" aria-label="grid view">
-              <GridView />
-            </ToggleButton>
-            <ToggleButton value="list" aria-label="list view">
-              <ViewList />
-            </ToggleButton>
-          </ToggleButtonGroup>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
+          <Tabs value={tabValue} onChange={handleTabChange} aria-label="gem tabs">
+            <Tab label="Featured" />
+            <Tab label="Latest" />
+          </Tabs>
         </Box>
         <Grid container spacing={4}>
-          {gems.map((gem) => (
-            <Grid item key={gem.id} xs={12} sm={viewMode === 'grid' ? 6 : 12} md={viewMode === 'grid' ? 4 : 12}>
-              <Card sx={{ display: viewMode === 'list' ? 'flex' : 'block', height: '100%' }}>
-                {viewMode === 'grid' && (
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={gem.thumbnail || `https://fakeimg.pl/600x400?text=${gem.title}`}
-                    alt={gem.title}
-                  />
-                )}
+          {filteredGems.map((gem) => (
+            <Grid item key={gem.id} xs={12} sm={6} md={4}>
+              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={gem.thumbnail || `https://fakeimg.pl/600x400?text=${gem.title}`}
+                  alt={gem.title}
+                />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 600 }}>
                     {gem.title}
@@ -114,6 +108,7 @@ const App: React.FC = () => {
                 </CardContent>
                 <CardActions>
                   <Button size="small" startIcon={<GitHub />} href={gem.githubUrl} target="_blank" rel="noopener noreferrer">GitHub</Button>
+                  <Button size="small" startIcon={<ForkRight />} href={`${gem.githubUrl}/fork`} target="_blank" rel="noopener noreferrer">Fork this project</Button>
                 </CardActions>
               </Card>
             </Grid>
