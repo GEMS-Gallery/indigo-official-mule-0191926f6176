@@ -13,7 +13,6 @@ actor {
     title: Text;
     thumbnail: Text;
     githubUrl: Text;
-    description: Text;
     author: {
       name: Text;
       avatar: Text;
@@ -21,12 +20,12 @@ actor {
   };
 
   private stable var gemsEntries : [(Text, Gem)] = [
-    ("1", { id = "1"; title = "Awesome Project"; thumbnail = "https://fakeimg.pl/600x400?text=Awesome"; githubUrl = "https://github.com/awesome/project"; description = "An awesome project for developers"; author = { name = "Alice Johnson"; avatar = "https://i.pravatar.cc/150?u=alice" } }),
-    ("2", { id = "2"; title = "Cool Library"; thumbnail = "https://fakeimg.pl/600x400?text=Cool"; githubUrl = "https://github.com/cool/library"; description = "A cool library for your next project"; author = { name = "Bob Smith"; avatar = "https://i.pravatar.cc/150?u=bob" } }),
-    ("3", { id = "3"; title = "Useful Tool"; thumbnail = "https://fakeimg.pl/600x400?text=Useful"; githubUrl = "https://github.com/useful/tool"; description = "A useful tool for productivity"; author = { name = "Charlie Brown"; avatar = "https://i.pravatar.cc/150?u=charlie" } }),
-    ("4", { id = "4"; title = "Great Framework"; thumbnail = "https://fakeimg.pl/600x400?text=Great"; githubUrl = "https://github.com/great/framework"; description = "A great framework for building apps"; author = { name = "Diana Prince"; avatar = "https://i.pravatar.cc/150?u=diana" } }),
-    ("5", { id = "5"; title = "Amazing API"; thumbnail = "https://fakeimg.pl/600x400?text=Amazing"; githubUrl = "https://github.com/amazing/api"; description = "An amazing API for developers"; author = { name = "Ethan Hunt"; avatar = "https://i.pravatar.cc/150?u=ethan" } }),
-    ("6", { id = "6"; title = "Fantastic SDK"; thumbnail = "https://fakeimg.pl/600x400?text=Fantastic"; githubUrl = "https://github.com/fantastic/sdk"; description = "A fantastic SDK for your projects"; author = { name = "Fiona Gallagher"; avatar = "https://i.pravatar.cc/150?u=fiona" } })
+    ("1", { id = "1"; title = "Awesome Project"; thumbnail = "https://fakeimg.pl/600x400?text=Awesome"; githubUrl = "https://github.com/awesome/project"; author = { name = "Alice Johnson"; avatar = "https://i.pravatar.cc/150?u=alice" } }),
+    ("2", { id = "2"; title = "Cool Library"; thumbnail = "https://fakeimg.pl/600x400?text=Cool"; githubUrl = "https://github.com/cool/library"; author = { name = "Bob Smith"; avatar = "https://i.pravatar.cc/150?u=bob" } }),
+    ("3", { id = "3"; title = "Useful Tool"; thumbnail = "https://fakeimg.pl/600x400?text=Useful"; githubUrl = "https://github.com/useful/tool"; author = { name = "Charlie Brown"; avatar = "https://i.pravatar.cc/150?u=charlie" } }),
+    ("4", { id = "4"; title = "Great Framework"; thumbnail = "https://fakeimg.pl/600x400?text=Great"; githubUrl = "https://github.com/great/framework"; author = { name = "Diana Prince"; avatar = "https://i.pravatar.cc/150?u=diana" } }),
+    ("5", { id = "5"; title = "Amazing API"; thumbnail = "https://fakeimg.pl/600x400?text=Amazing"; githubUrl = "https://github.com/amazing/api"; author = { name = "Ethan Hunt"; avatar = "https://i.pravatar.cc/150?u=ethan" } }),
+    ("6", { id = "6"; title = "Fantastic SDK"; thumbnail = "https://fakeimg.pl/600x400?text=Fantastic"; githubUrl = "https://github.com/fantastic/sdk"; author = { name = "Fiona Gallagher"; avatar = "https://i.pravatar.cc/150?u=fiona" } })
   ];
   private var gems = HashMap.HashMap<Text, Gem>(10, Text.equal, Text.hash);
 

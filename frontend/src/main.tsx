@@ -12,7 +12,7 @@ const theme = createTheme({
       main: '#000000',
     },
     secondary: {
-      main: '#E0E0E0',
+      main: '#F5F5F5',
     },
     background: {
       default: '#FFFFFF',
@@ -22,11 +22,11 @@ const theme = createTheme({
   typography: {
     fontFamily: '"Inter", "Helvetica", "Arial", sans-serif',
     h1: {
-      fontSize: '2.5rem',
+      fontSize: '2rem',
       fontWeight: 700,
     },
     h2: {
-      fontSize: '2rem',
+      fontSize: '1.5rem',
       fontWeight: 600,
     },
     body1: {
@@ -40,6 +40,7 @@ const theme = createTheme({
         root: {
           textTransform: 'none',
           borderRadius: '8px',
+          fontWeight: 500,
         },
       },
     },
@@ -47,7 +48,8 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: '12px',
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          boxShadow: 'none',
+          border: '1px solid #E0E0E0',
         },
       },
     },

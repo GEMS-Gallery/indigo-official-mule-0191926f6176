@@ -6,7 +6,6 @@ export interface Gem {
   'id' : string,
   'title' : string,
   'thumbnail' : string,
-  'description' : string,
   'githubUrl' : string,
   'author' : { 'name' : string, 'avatar' : string },
 }

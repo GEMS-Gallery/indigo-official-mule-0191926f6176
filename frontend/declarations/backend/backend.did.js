@@ -3,7 +3,6 @@ export const idlFactory = ({ IDL }) => {
     'id' : IDL.Text,
     'title' : IDL.Text,
     'thumbnail' : IDL.Text,
-    'description' : IDL.Text,
     'githubUrl' : IDL.Text,
     'author' : IDL.Record({ 'name' : IDL.Text, 'avatar' : IDL.Text }),
   });

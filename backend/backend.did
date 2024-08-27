@@ -9,7 +9,6 @@ type Gem =
              avatar: text;
              name: text;
            };
-   description: text;
    githubUrl: text;
    id: text;
    thumbnail: text;

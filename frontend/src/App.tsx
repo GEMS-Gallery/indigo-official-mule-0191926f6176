@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Grid, Card, CardContent, CardMedia, CardActions, Button, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Box, Avatar } from '@mui/material';
-import { GitHub, Add } from '@mui/icons-material';
+import { Container, Typography, Grid, Card, CardContent, CardMedia, CardActions, Button, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Box, Avatar, ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { GitHub, Add, GridView, ViewList } from '@mui/icons-material';
 import { backend } from 'declarations/backend';
 
 interface Gem {
@@ -8,7 +8,6 @@ interface Gem {
   title: string;
   thumbnail: string;
   githubUrl: string;
-  description: string;
   author: {
     name: string;
     avatar: string;
@@ -23,9 +22,9 @@ const App: React.FC = () => {
     title: '',
     thumbnail: '',
     githubUrl: '',
-    description: '',
     author: { name: '', avatar: '' }
   });
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   useEffect(() => {
     fetchGems();
@@ -49,12 +48,17 @@ const App: React.FC = () => {
         title: '',
         thumbnail: '',
         githubUrl: '',
-        description: '',
         author: { name: '', avatar: '' }
       });
       fetchGems();
     } catch (error) {
       console.error('Error adding gem:', error);
+    }
+  };
+
+  const handleViewChange = (event: React.MouseEvent<HTMLElement>, newView: 'grid' | 'list' | null) => {
+    if (newView !== null) {
+      setViewMode(newView);
     }
   };
 
@@ -69,22 +73,39 @@ const App: React.FC = () => {
         </Toolbar>
       </AppBar>
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4, flexGrow: 1 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Typography variant="h4" component="h1" sx={{ fontWeight: 700 }}>
+            Gems
+          </Typography>
+          <ToggleButtonGroup
+            value={viewMode}
+            exclusive
+            onChange={handleViewChange}
+            aria-label="view mode"
+          >
+            <ToggleButton value="grid" aria-label="grid view">
+              <GridView />
+            </ToggleButton>
+            <ToggleButton value="list" aria-label="list view">
+              <ViewList />
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Box>
         <Grid container spacing={4}>
           {gems.map((gem) => (
-            <Grid item key={gem.id} xs={12} sm={6} md={4}>
-              <Card>
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={gem.thumbnail || `https://fakeimg.pl/600x400?text=${gem.title}`}
-                  alt={gem.title}
-                />
-                <CardContent>
+            <Grid item key={gem.id} xs={12} sm={viewMode === 'grid' ? 6 : 12} md={viewMode === 'grid' ? 4 : 12}>
+              <Card sx={{ display: viewMode === 'list' ? 'flex' : 'block', height: '100%' }}>
+                {viewMode === 'grid' && (
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={gem.thumbnail || `https://fakeimg.pl/600x400?text=${gem.title}`}
+                    alt={gem.title}
+                  />
+                )}
+                <CardContent sx={{ flexGrow: 1 }}>
                   <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 600 }}>
                     {gem.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {gem.description}
                   </Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
                     <Avatar src={gem.author.avatar} alt={gem.author.name} sx={{ mr: 1 }} />
@@ -134,16 +155,6 @@ const App: React.FC = () => {
             variant="outlined"
             value={newGem.githubUrl}
             onChange={(e) => setNewGem({ ...newGem, githubUrl: e.target.value })}
-          />
-          <TextField
-            margin="dense"
-            label="Description"
-            fullWidth
-            variant="outlined"
-            multiline
-            rows={4}
-            value={newGem.description}
-            onChange={(e) => setNewGem({ ...newGem, description: e.target.value })}
           />
           <TextField
             margin="dense"
