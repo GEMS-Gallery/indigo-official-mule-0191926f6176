@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Grid, Card, CardContent, CardMedia, CardActions, Button, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Box } from '@mui/material';
-import { GitHub, Add, Delete } from '@mui/icons-material';
+import { Container, Typography, Grid, Card, CardContent, CardMedia, CardActions, Button, AppBar, Toolbar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Box, Avatar } from '@mui/material';
+import { GitHub, Add } from '@mui/icons-material';
 import { backend } from 'declarations/backend';
 
 interface Gem {
@@ -9,12 +9,23 @@ interface Gem {
   thumbnail: string;
   githubUrl: string;
   description: string;
+  author: {
+    name: string;
+    avatar: string;
+  };
 }
 
 const App: React.FC = () => {
   const [gems, setGems] = useState<Gem[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [newGem, setNewGem] = useState<Gem>({ id: '', title: '', thumbnail: '', githubUrl: '', description: '' });
+  const [newGem, setNewGem] = useState<Gem>({
+    id: '',
+    title: '',
+    thumbnail: '',
+    githubUrl: '',
+    description: '',
+    author: { name: '', avatar: '' }
+  });
 
   useEffect(() => {
     fetchGems();
@@ -33,19 +44,17 @@ const App: React.FC = () => {
     try {
       await backend.addGem(newGem);
       setOpenDialog(false);
-      setNewGem({ id: '', title: '', thumbnail: '', githubUrl: '', description: '' });
+      setNewGem({
+        id: '',
+        title: '',
+        thumbnail: '',
+        githubUrl: '',
+        description: '',
+        author: { name: '', avatar: '' }
+      });
       fetchGems();
     } catch (error) {
       console.error('Error adding gem:', error);
-    }
-  };
-
-  const handleRemoveGem = async (id: string) => {
-    try {
-      await backend.removeGem(id);
-      fetchGems();
-    } catch (error) {
-      console.error('Error removing gem:', error);
     }
   };
 
@@ -77,10 +86,13 @@ const App: React.FC = () => {
                   <Typography variant="body2" color="text.secondary">
                     {gem.description}
                   </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                    <Avatar src={gem.author.avatar} alt={gem.author.name} sx={{ mr: 1 }} />
+                    <Typography variant="body2">{gem.author.name}</Typography>
+                  </Box>
                 </CardContent>
                 <CardActions>
                   <Button size="small" startIcon={<GitHub />} href={gem.githubUrl} target="_blank" rel="noopener noreferrer">GitHub</Button>
-                  <Button size="small" startIcon={<Delete />} color="error" onClick={() => handleRemoveGem(gem.id)}>Remove</Button>
                 </CardActions>
               </Card>
             </Grid>
@@ -132,6 +144,22 @@ const App: React.FC = () => {
             rows={4}
             value={newGem.description}
             onChange={(e) => setNewGem({ ...newGem, description: e.target.value })}
+          />
+          <TextField
+            margin="dense"
+            label="Author Name"
+            fullWidth
+            variant="outlined"
+            value={newGem.author.name}
+            onChange={(e) => setNewGem({ ...newGem, author: { ...newGem.author, name: e.target.value } })}
+          />
+          <TextField
+            margin="dense"
+            label="Author Avatar URL"
+            fullWidth
+            variant="outlined"
+            value={newGem.author.avatar}
+            onChange={(e) => setNewGem({ ...newGem, author: { ...newGem.author, avatar: e.target.value } })}
           />
         </DialogContent>
         <DialogActions>

@@ -5,12 +5,12 @@ export const idlFactory = ({ IDL }) => {
     'thumbnail' : IDL.Text,
     'description' : IDL.Text,
     'githubUrl' : IDL.Text,
+    'author' : IDL.Record({ 'name' : IDL.Text, 'avatar' : IDL.Text }),
   });
   const Result = IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text });
   return IDL.Service({
     'addGem' : IDL.Func([Gem], [Result], []),
     'getGems' : IDL.Func([], [IDL.Vec(Gem)], ['query']),
-    'removeGem' : IDL.Func([IDL.Text], [Result], []),
     'updateGem' : IDL.Func([Gem], [Result], []),
   });
 };

@@ -5,6 +5,10 @@ type Result =
  };
 type Gem = 
  record {
+   author: record {
+             avatar: text;
+             name: text;
+           };
    description: text;
    githubUrl: text;
    id: text;
@@ -14,6 +18,5 @@ type Gem =
 service : {
   addGem: (Gem) -> (Result);
   getGems: () -> (vec Gem) query;
-  removeGem: (text) -> (Result);
   updateGem: (Gem) -> (Result);
 }

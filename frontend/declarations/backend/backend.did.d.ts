@@ -8,13 +8,13 @@ export interface Gem {
   'thumbnail' : string,
   'description' : string,
   'githubUrl' : string,
+  'author' : { 'name' : string, 'avatar' : string },
 }
 export type Result = { 'ok' : null } |
   { 'err' : string };
 export interface _SERVICE {
   'addGem' : ActorMethod<[Gem], Result>,
   'getGems' : ActorMethod<[], Array<Gem>>,
-  'removeGem' : ActorMethod<[string], Result>,
   'updateGem' : ActorMethod<[Gem], Result>,
 }
 export declare const idlFactory: IDL.InterfaceFactory;
